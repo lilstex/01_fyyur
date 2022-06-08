@@ -170,13 +170,14 @@ def show_venue(venue_id):
   # shows the venue page with the given venue_id
   # TODO: replace with real venue data from the venues table, using venue_id
   venue = Venue.query.get(venue_id)
+  shows = db.session.query(Show).join(Artist).filter(Show.venue_id==venue_id).all()
   if not venue:
     return redirect(url_for('venues'))
   upcoming_shows = []
   past_shows = []
   upcoming_shows_count = 0
   past_shows_count = 0
-  for show in venue.shows:
+  for show in shows:
     if show.start_time > datetime.now():
       upcoming_shows_count +=1
       upcoming_shows.append({
@@ -415,13 +416,14 @@ def show_artist(artist_id):
   # shows the artist page with the given artist_id
   # TODO: replace with real artist data from the artist table, using artist_id
   artist = Artist.query.get(artist_id)
+  shows = db.session.query(Show).join(Venue).filter(Show.artist_id==artist_id).all()
   if not artist:
     return redirect(url_for('artists'))
   upcoming_shows = []
   past_shows = []
   upcoming_shows_count = 0
   past_shows_count = 0
-  for show in artist.shows:
+  for show in shows:
     if show.start_time > datetime.now():
       upcoming_shows_count +=1
       upcoming_shows.append({

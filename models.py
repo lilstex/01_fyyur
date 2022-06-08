@@ -73,4 +73,6 @@ class Artist(db.Model):
   facebook_link = db.Column(db.String(120))
   shows = db.relationship('Show', backref='artist', lazy=True, cascade='all, delete-orphan')
 
-  # TODO: implement any missing fields, as a database migration using Flask-Migrate
+
+with app.app_context():
+  db.create_all()
